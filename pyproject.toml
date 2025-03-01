@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "happy"
+version = "0.1.0"
+description = ""
+authors = ["amir_espahbodi <dev.amir.espahbodi@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.13.2"
+pydantic = "^2.10.6"
+pydantic-settings = "^2.8.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

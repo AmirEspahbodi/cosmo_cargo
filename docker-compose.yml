@@ -1,0 +1,31 @@
+services:
+  process:
+    container_name: process
+    build: .
+    command: poetry run python -m src.main
+    environment:
+      - DATABASE_HOSTNAME=COSMO_CARGO_DB
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - postgres
+    links:
+      - 'postgres:COSMO_CARGO_DB'
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: cosmo_cargo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "8080:5432"
+
+volumes:
+  postgres_data:
+  pgadmin_data:
