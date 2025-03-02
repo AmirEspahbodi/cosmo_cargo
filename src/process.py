@@ -1,7 +1,7 @@
 from time import sleep
 from typing import List, Set, Dict, Tuple
 from src.config import AppConfig
-from .data import FetchDao, RedisDao
+from .data import FetchDao, RedisDao, PostgreDAO
 from .data.dto.shipment import Shipment
 
 
@@ -9,6 +9,7 @@ class CosmoCargoProcess:
     def __init__(self):
         self.fetch_dao = FetchDao("https://censibal.github.io/txr-technical-hiring/")
         self.redis_dao = RedisDao()
+        self.postgres_dao = PostgreDAO()
 
     def start(self):
         while True:
@@ -18,23 +19,29 @@ class CosmoCargoProcess:
             sleep(AppConfig.FETCH_INTERVAL)
 
     def do(self):
-        # get new data from web source
-        new_shipments = self.get_new_shipments()
+        # get data from web source and database
+        source_data: List[Shipment] = self.fetch_dao.get_data()
+        existing_data: List[Shipment] = self.postgres_dao.get_all()
+
+        # determine data to delete, insert, update
+        restore_data: List[Shipment] = self.get_restore_shipments(source_data, existing_data)
+        delete_data: List[Shipment] = self.get_del_shipments(source_data, existing_data)
+        new_shipments: List[Shipment] = self.get_new_shipments(source_data, existing_data)
+        
+        print(f"restore_data = {restore_data}")
+        print(f"delete_data = {delete_data}")
         print(f"new_shipments = {new_shipments}")
         
-        # insert new data to db
         
-        # insert new data to redis
-
-    def get_new_shipments(self) -> List[Shipment]:
-
-        source_data: List[Shipment] = self.fetch_dao.get_data()
-        existing_data: List[Shipment] = self.redis_dao.get_all_shipments()
+        # update db
         
+
+    def get_new_shipments(self, source_data:List[Shipment], existing_data:List[Shipment]) -> List[Shipment]:
         existing_shipment_keys: Set[str] = set()
         for shipment in existing_data:
-            key = self._create_shipment_key(shipment)
-            existing_shipment_keys.add(key)
+            if not shipment.is_deleted:
+                key = self._create_shipment_key(shipment)
+                existing_shipment_keys.add(key)
         
         new_shipments: List[Shipment] = []
         for shipment in source_data:
@@ -43,6 +50,39 @@ class CosmoCargoProcess:
                 new_shipments.append(shipment)
         
         return new_shipments
+
+
+    def get_del_shipments(self, source_data:List[Shipment], existing_data:List[Shipment]) -> List[Shipment]:
+        new_shipment_keys: Set[str] = set()
+        for shipment in source_data:
+            key = self._create_shipment_key(shipment)
+            new_shipment_keys.add(key)
+        
+        delete_shipments: List[Shipment] = []
+        for shipment in existing_data:
+            if not shipment.is_deleted:
+                key = self._create_shipment_key(shipment)
+                if key not in new_shipment_keys:
+                    delete_shipments.append(shipment)
+        
+        return delete_shipments
+
+    
+    def get_restore_shipments(self, source_data:List[Shipment], existing_data:List[Shipment]) -> List[Shipment]:
+        new_shipment_keys: Set[str] = set()
+        for shipment in source_data:
+            key = self._create_shipment_key(shipment)
+            new_shipment_keys.add(key)
+        
+        restore_shipments: List[Shipment] = []
+        for shipment in existing_data:
+            if shipment.is_deleted:
+                key = self._create_shipment_key(shipment)
+                if key in new_shipment_keys:
+                    restore_shipments.append(shipment)
+        
+        return restore_shipments
+
 
     def _create_shipment_key(self, shipment: Shipment) -> str:
         fields = [

@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 class Shipment(BaseModel):
+    id: int|None = None
     time: int = Field(..., alias="time")
     weight_kg: float = Field(..., alias="weightKg")
     volume_m3: float = Field(..., alias="volumeM3")
@@ -21,6 +22,9 @@ class Shipment(BaseModel):
     destination_planet: str = Field(..., alias="destinationPlanet")
     destination_country: str = Field(..., alias="destinationCountry")
     destination_address: str = Field(..., alias="destinationAddress")
+    
+    is_deleted: bool|None = None
+    deleted_at: datetime|None = None
     
     model_config = ConfigDict(extra='forbid', populate_by_name=True)
 
