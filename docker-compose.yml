@@ -2,7 +2,7 @@ services:
   process:
     container_name: process
     build: .
-    command: poetry run python -m src.process_main
+    command: poetry run python /home/python_user/src/process_main.py
     environment:
       - DATABASE_HOSTNAME=COSMO_CARGO_DB
       - DATABASE_USERNAME=postgres
@@ -17,7 +17,27 @@ services:
     volumes:
       - ./alembic/:/home/python_user/alembic/
       - ./src/:/home/python_user/src/
-      - ./scripts/:/home/python_user/scripts/
+
+  dashboard:
+    container_name: dashboard
+    build: .
+    command: poetry run streamlit run /home/python_user/src/dashboard.py --server.port=8501 --server.address=0.0.0.0
+    restart: unless-stopped
+    environment:
+      - DATABASE_HOSTNAME=COSMO_CARGO_DB
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_PORT=5432
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8501:8501"
+    links:
+      - 'postgres:COSMO_CARGO_DB'
+      - 'redis:cosmo_cargo_cache'
+    volumes:
+      - ./src/:/home/python_user/src/
 
   postgres:
     image: postgres:latest

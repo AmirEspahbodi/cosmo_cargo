@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from contextlib import contextmanager
-from src.config import PostgresConfig
+from config import PostgresConfig
 
 # Generate Database URL
 DATABASE_URL = f"postgresql://{PostgresConfig.DATABASE_USERNAME}:{PostgresConfig.DATABASE_PASSWORD}@{PostgresConfig.DATABASE_HOSTNAME}:{PostgresConfig.DATABASE_PORT}/{PostgresConfig.DATABASE_NAME}"

@@ -1,8 +1,8 @@
 from sqlalchemy.orm.session import Session
 from datetime import datetime
-from src.data.dto.shipment import Shipment as ShipmentDTO
-from src.utils import init_session
-from src.model.shipments import Shipment as ShipmentModel
+from data.dto.shipment import Shipment as ShipmentDTO
+from utils import init_session
+from model.shipments import Shipment as ShipmentModel
 from sqlalchemy import select, delete, insert, update
 
 

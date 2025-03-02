@@ -1,8 +1,8 @@
 from time import sleep
 from typing import List, Set, Dict, Tuple
-from src.config import AppConfig
-from src.data import FetchDao, RedisDao, PostgreDAO
-from src.data.dto.shipment import Shipment
+from config import AppConfig
+from data import FetchDao, RedisDao, PostgreDAO
+from data.dto.shipment import Shipment
 
 
 class CosmoCargoProcess:
@@ -15,8 +15,8 @@ class CosmoCargoProcess:
         while True:
             if self.if_end():
                 break
-            self.do()
             sleep(AppConfig.FETCH_INTERVAL)
+            self.do()
 
     def do(self):
         # get data from web source and database

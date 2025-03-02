@@ -1,2 +1,2 @@
-from src.core.connection.postgres import Base
+from core.connection.postgres import Base
 from .shipments import Shipment
