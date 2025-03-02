@@ -17,9 +17,9 @@ class FetchDao:
     def _fetch_data(self) -> str:
         logger.info("request to web page")
 
-        self.playwright_runtime.browser_page.goto(url=self.url)
-        self.playwright_runtime.browser_page.wait_for_selector("#json")
-        json_text = self.playwright_runtime.browser_page.inner_text("#json")
+        self.playwright_runtime.browser_page.goto(url=self.url, timeout=60000)
+        self.playwright_runtime.browser_page.wait_for_selector("#json", timeout=60000)
+        json_text = self.playwright_runtime.browser_page.inner_text("#json", timeout=60000)
         
         if json_text:
             logger.info("got data from web page")

@@ -28,13 +28,15 @@ class CosmoCargoProcess:
         delete_data: List[Shipment] = self.get_del_shipments(source_data, existing_data)
         new_shipments: List[Shipment] = self.get_new_shipments(source_data, existing_data)
         
-        print(f"restore_data = {restore_data}")
-        print(f"delete_data = {delete_data}")
-        print(f"new_shipments = {new_shipments}")
-        
+        print(f"len restore_data = {len(restore_data)}")
+        print(f"len delete_data = {len(delete_data)}")
+        print(f"len new_shipments = {len(new_shipments)}")
         
         # update db
-        
+        self.postgres_dao.bulk_insert(new_shipments)
+        self.postgres_dao.bulk_delete_by_ids([shipment.id for shipment in delete_data])
+        self.postgres_dao.bulk_restore_by_ids([shipment.id for shipment in restore_data])
+
 
     def get_new_shipments(self, source_data:List[Shipment], existing_data:List[Shipment]) -> List[Shipment]:
         existing_shipment_keys: Set[str] = set()

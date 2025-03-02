@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import BIGINT, FLOAT, VARCHAR, INTEGER, BOOLEAN, TIMESTAMP
 
 from src.core.connection.postgres import Base
@@ -31,5 +32,9 @@ class Shipment(Base):
     destination_planet: Mapped[str] = mapped_column(VARCHAR(255))
     destination_country: Mapped[str] = mapped_column(VARCHAR(255))
     destination_address: Mapped[str] = mapped_column(VARCHAR(255))
-    is_deleted: Mapped[bool] = mapped_column(BOOLEAN)
-    deleted_at: Mapped[bool] = mapped_column(TIMESTAMP)
+    
+    created_at: Mapped[bool] = mapped_column(TIMESTAMP, default=func.now())
+    is_deleted: Mapped[bool] = mapped_column(BOOLEAN, default=False)
+    deleted_at: Mapped[bool] = mapped_column(TIMESTAMP, nullable=True)
+    is_restored: Mapped[bool] = mapped_column(BOOLEAN, default=False)
+    restored_at: Mapped[bool] = mapped_column(TIMESTAMP, nullable=True)

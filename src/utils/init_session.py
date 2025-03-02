@@ -6,7 +6,6 @@ def init_session(func):
         session = Session()
         try:
             resutl = func(self, session, *args, **kwargs)
-            session.commit()
         except Exception:
             session.rollback()
             raise
