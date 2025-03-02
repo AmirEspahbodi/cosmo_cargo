@@ -40,7 +40,7 @@ RUN python3 -m venv $POETRY_VENV \
 	&& $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
 
 # Create a new stage from the base python image
-FROM python-base AS example-app
+FROM python-base AS example-app-base
 
 # Copy Poetry to django_core image
 COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
@@ -57,6 +57,10 @@ RUN poetry check
 # Install Dependencies
 RUN poetry install --no-interaction --no-cache
 
+FROM example-app-base AS example-app-final
 
 COPY .env $APP_HOME
 COPY src/ $APP_HOME/src/
+COPY alembic.ini $APP_HOME/
+COPY alembic/ $APP_HOME/alembic/
+COPY scripts/ $APP_HOME/scripts/

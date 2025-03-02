@@ -1,5 +1,4 @@
 import psycopg2
-from psycopg2 import sql
 from time import sleep
 import sys
 from .process import CosmoCargoProcess
