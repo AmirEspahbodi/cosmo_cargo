@@ -2,7 +2,7 @@ services:
   process:
     container_name: process
     build: .
-    command: poetry run python -m src.main
+    command: poetry run python -m etl_src.process_main
     environment:
       - DATABASE_HOSTNAME=COSMO_CARGO_DB
       - DATABASE_USERNAME=postgres
@@ -16,7 +16,7 @@ services:
       - 'redis:cosmo_cargo_cache'
     volumes:
       - ./alembic/:/home/python_user/alembic/
-      - ./src/:/home/python_user/src/
+      - ./etl_src/:/home/python_user/etl_src/
       - ./scripts/:/home/python_user/scripts/
 
   postgres:

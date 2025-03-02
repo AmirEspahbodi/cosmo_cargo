@@ -1,10 +1,10 @@
 import psycopg2
 from time import sleep
 import sys
-from .core.playwright_runtime import PlaywrightRuntime
-from .process import CosmoCargoProcess
-from .config import PostgresConfig
-from .core.logger import logger
+from etl_src.core.playwright_runtime import PlaywrightRuntime
+from etl_src.process.etl import CosmoCargoProcess
+from etl_src.config import PostgresConfig
+from etl_src.core.logger import logger
 
 
 # check if database exist of not create database

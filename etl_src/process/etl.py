@@ -1,8 +1,8 @@
 from time import sleep
 from typing import List, Set, Dict, Tuple
-from src.config import AppConfig
-from .data import FetchDao, RedisDao, PostgreDAO
-from .data.dto.shipment import Shipment
+from etl_src.config import AppConfig
+from etl_src.data import FetchDao, RedisDao, PostgreDAO
+from etl_src.data.dto.shipment import Shipment
 
 
 class CosmoCargoProcess:

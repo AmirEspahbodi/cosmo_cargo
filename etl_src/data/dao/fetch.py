@@ -1,8 +1,8 @@
 import traceback
-from src.data.dto.shipment import Shipment
+from etl_src.data.dto.shipment import Shipment
 import json
-from src.core.logger import logger
-from src.core.playwright_runtime import PlaywrightRuntime
+from etl_src.core.logger import logger
+from etl_src.core.playwright_runtime import PlaywrightRuntime
 
 class FetchDao:
     def __init__(self, url):
