@@ -22,7 +22,7 @@ config = context.config
 # this will overwrite the ini-file sqlalchemy.url path
 # with the path given in the config of the main code
 from src.config import PostgresConfig
-config.set_main_option("sqlalchemy.url", f"postgresql+psycopg2://{PostgresConfig.POSTGRES_USER}:{PostgresConfig.POSTGRES_PASSWORD}@{PostgresConfig.POSTGRES_HOSTNAME}:{PostgresConfig.DATABASE_PORT}/{PostgresConfig.POSTGRES_DB}")
+config.set_main_option("sqlalchemy.url", f"postgresql+psycopg2://{PostgresConfig.DATABASE_USERNAME}:{PostgresConfig.DATABASE_PASSWORD}@{PostgresConfig.DATABASE_HOSTNAME}:{PostgresConfig.DATABASE_PORT}/{PostgresConfig.DATABASE_NAME}")
 # ----------------          -------------------------#
 
 
