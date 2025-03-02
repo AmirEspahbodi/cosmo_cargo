@@ -49,12 +49,14 @@ COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
 # copy dependency
-COPY ./pyproject.toml  ./README.md $APP_HOME
+COPY ./pyproject.toml ./README.md $APP_HOME
 
 # [OPTIONAL] Validate the project is properly configured
 RUN poetry check
 
-COPY src/ src/
-
 # Install Dependencies
 RUN poetry install --no-interaction --no-cache
+
+
+COPY .env $APP_HOME
+COPY src/ $APP_HOME/src/
