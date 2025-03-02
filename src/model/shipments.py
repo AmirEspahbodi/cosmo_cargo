@@ -1,8 +1,7 @@
 
 from datetime import datetime
 from sqlalchemy.orm import mapped_column, Mapped
-from sqlalchemy import TIMESTAMP, ForeignKey
-from sqlalchemy.dialects.postgresql import BIGINT
+from sqlalchemy.dialects.postgresql import BIGINT, FLOAT, VARCHAR, INTEGER, BOOLEAN, TIMESTAMP
 
 from src.core.connection.postgres import Base
 
@@ -15,4 +14,22 @@ class Shipment(Base):
         primary_key=True,
         autoincrement=True,
     )
-
+    time: Mapped[int] = mapped_column(INTEGER)
+    weight_kg: Mapped[float] = mapped_column(FLOAT)
+    volume_m3: Mapped[float] = mapped_column(FLOAT)
+    eta_min: Mapped[int] = mapped_column(INTEGER)
+    status: Mapped[str] = mapped_column(VARCHAR(255))
+    forecast_origin_wind_velocity_mph: Mapped[float] = mapped_column(FLOAT)
+    forecast_origin_wind_direction: Mapped[str] = mapped_column(VARCHAR(255))
+    forecast_origin_precipitation_chance: Mapped[float] = mapped_column(FLOAT)
+    forecast_origin_precipitation_kind: Mapped[str] = mapped_column(VARCHAR(255))
+    origin_solar_system: Mapped[str] = mapped_column(VARCHAR(255))
+    origin_planet: Mapped[str] = mapped_column(VARCHAR(255))
+    origin_country: Mapped[str] = mapped_column(VARCHAR(255))
+    origin_address: Mapped[str] = mapped_column(VARCHAR(255))
+    destination_solar_system: Mapped[str] = mapped_column(VARCHAR(255))
+    destination_planet: Mapped[str] = mapped_column(VARCHAR(255))
+    destination_country: Mapped[str] = mapped_column(VARCHAR(255))
+    destination_address: Mapped[str] = mapped_column(VARCHAR(255))
+    is_deleted: Mapped[bool] = mapped_column(BOOLEAN)
+    deleted_at: Mapped[bool] = mapped_column(TIMESTAMP)
