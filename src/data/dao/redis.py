@@ -1,7 +1,7 @@
 from typing import List, Optional
 import uuid
-from etl_src.core.connection.redis import redis_con
-from etl_src.data.dto.shipment import Shipment
+from src.core.connection.redis import redis_con
+from src.data.dto.shipment import Shipment
 
 
 class RedisDao:

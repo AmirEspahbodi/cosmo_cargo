@@ -4,7 +4,7 @@ from sqlalchemy.orm import mapped_column, Mapped
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import BIGINT, FLOAT, VARCHAR, INTEGER, BOOLEAN, TIMESTAMP
 
-from etl_src.core.connection.postgres import Base
+from src.core.connection.postgres import Base
 
 
 class Shipment(Base):

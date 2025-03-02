@@ -1,6 +1,6 @@
 from playwright.sync_api import Playwright, sync_playwright, Page, Browser
-from etl_src.core.logger import logger
-from etl_src.utils import Singleton
+from src.core.logger import logger
+from src.utils import Singleton
 
 class PlaywrightRuntime(metaclass=Singleton):
     playwright: Playwright

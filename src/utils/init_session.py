@@ -1,4 +1,4 @@
-from etl_src.core.connection.postgres import Session
+from src.core.connection.postgres import Session
 
 
 def init_session(func):
