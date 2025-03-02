@@ -10,8 +10,10 @@ services:
       - DATABASE_PORT=5432
     depends_on:
       - postgres
+      - redis
     links:
       - 'postgres:COSMO_CARGO_DB'
+      - 'redis:cosmo_cargo_cache'
 
   postgres:
     image: postgres:latest
@@ -20,11 +22,36 @@ services:
     environment:
       POSTGRES_DB: cosmo_cargo
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORDpython-base: postgres
       PGDATA: /var/lib/postgresql/data
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    volumes:
+    - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    links:
+    - "postgres:pgsql-server"
+
+  redis:
+    image: redis:7.2.5-alpine3.20
+    container_name: redis
+    volumes:
+      - redis-data:/data
+
+
 volumes:
   postgres_data:
   pgadmin_data:
+  pgadmin-data:
+  redis-data:

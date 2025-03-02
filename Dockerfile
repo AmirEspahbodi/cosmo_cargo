@@ -56,6 +56,8 @@ RUN poetry check
 
 # Install Dependencies
 RUN poetry install --no-interaction --no-cache
+RUN poetry run playwright install --with-deps chromium 
+
 
 FROM example-app-base AS example-app-final
 

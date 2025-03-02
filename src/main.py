@@ -1,6 +1,7 @@
 import psycopg2
 from time import sleep
 import sys
+from .core.playwright_runtime import PlaywrightRuntime
 from .process import CosmoCargoProcess
 from .config import PostgresConfig
 from .core.logger import logger
@@ -35,6 +36,8 @@ else:
     logger.error("PostgreSQL server is not available. Exiting.")
     sys.exit(1)
 
+# initialize playwright for first time
+PlaywrightRuntime().initialize()
 
 # start process
 cosmo_cargo_process = CosmoCargoProcess()

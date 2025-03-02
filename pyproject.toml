@@ -12,6 +12,11 @@ pydantic-settings = "^2.8.1"
 sqlalchemy = "^2.0.38"
 psycopg2-binary = "^2.9.10"
 alembic = "^1.14.1"
+requests = "^2.32.3"
+beautifulsoup4 = "^4.13.3"
+redis = "^5.2.1"
+ruff = "^0.9.9"
+pytest-playwright = "^0.7.0"
 
 
 [build-system]
