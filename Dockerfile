@@ -61,8 +61,5 @@ RUN poetry run playwright install --with-deps chromium
 
 FROM example-app-base AS example-app-final
 
-COPY .env $APP_HOME
 COPY src/ $APP_HOME/src/
-COPY alembic.ini $APP_HOME/
-COPY alembic/ $APP_HOME/alembic/
-COPY scripts/ $APP_HOME/scripts/
+COPY .env $APP_HOME/.env
