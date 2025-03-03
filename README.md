@@ -25,6 +25,12 @@ Launch the entire system with a single command:
 sudo docker compose up --build
 ```
 
+in first container start up you must run migrations, do it with this command
+```bash
+sudo docker compose exec process poetry run python -m scripts.migration
+```
+
+
 This command builds and starts all required containers:
 - PostgreSQL database
 - PgAdmin interface
